@@ -33,6 +33,8 @@ class SlugBehavior extends CBehavior
 	public $translator;
 	/** @var array */
 	public $scenarios = array('insert', 'update');
+	/** @var bool */
+	public $validateUnique = true;
 
 	public function events()
 	{
@@ -52,11 +54,13 @@ class SlugBehavior extends CBehavior
 					$this,
 					$this->slugAttribute
 				));
-			$list->add(CValidator::createValidator(
-					'validateUniqueSlug',
-					$this,
-					$this->slugAttribute
-				));
+			if ($this->validateUnique) {
+				$list->add(CValidator::createValidator(
+						'validateUniqueSlug',
+						$this,
+						$this->slugAttribute
+					));
+			}
 		}
 	}
 
